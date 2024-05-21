@@ -23,10 +23,11 @@ public class Steps {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
-	@After
-	public void closeBrowser(){
-		driver.close();
-	}
+
+    @After
+    public void closeBrowser() {
+        driver.close();
+    }
 
     @Given("^I am on the Google search page$")
     public void iAmOnTheGoogleSearchPage() {
@@ -42,7 +43,7 @@ public class Steps {
     public void i_enter_cucumber_selenium_in_the_search_box() throws InterruptedException {
         System.out.println("ddd");
         //driver.wait(2000);
-        driver.findElement(By.name("q")).sendKeys("Cucumber Selenium"+Keys.ENTER);
+        driver.findElement(By.name("q")).sendKeys("Cucumber Selenium" + Keys.ENTER);
 
 //        WebElement m = driver.findElement(By.name("q"));
 //        m.sendKeys("Cucumber Selenium");
@@ -58,7 +59,7 @@ public class Steps {
     public void iShouldSeeSearchResultsRelatedTo() {
         String pageTitle = driver.getTitle();
         assert (pageTitle.contains("Cucumber Selenium"));
-           }
+    }
 
 //    @After(order = 1) // Cucumber After Hook with order 1
 //    public void takeScreenShotOnFailedScenario(Scenario scenario) {
