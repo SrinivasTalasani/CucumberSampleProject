@@ -4,19 +4,21 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import org.openqa.selenium.*;
 
-import org.openqa.selenium.chrome.ChromeDriver;
-
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.edge.EdgeDriver;
 
-import java.sql.SQLOutput;
-
 
 public class Steps {
     WebDriver driver;
+    homePage HomePage;
+    loginPage login;
+
+    public Steps() {
+    }
+
 
     @Before
     public void launchBrowser() {
@@ -26,65 +28,63 @@ public class Steps {
         driver.manage().window().maximize();
     }
 
-    @After
-    public void closeBrowser() {
-        driver.close();
-    }
+//    @After
+//    public void closeBrowser() {
+//        driver.close();
+//    }
 
 
-
-
-
-    @Given("User Logged in to the shopping cart")
-    public void userLoggedInToTheShoppingCart() {
-
+    @Given("User Logged in to the shopping site with username {string} and password {string}")
+    public void userLoggedInToTheShoppingSiteWithUsernameAndPassword(String uname, String password) throws InterruptedException {
         driver.get("https://demowebshop.tricentis.com/");
-
+        login = new loginPage(driver);
+        login.clickLoginInitialButton();
+        Thread.sleep(2000);
+        login.captureEmail(uname);
+        login.capturePassword(password);
+        login.clickLoginButton();
 
     }
 
     @When("User go to computer menu and select desktops")
-    public void userGoToComputerMenuAndSelectDesktops() {
-        driver.findElement(By.xpath("(//*[text()='Log in'])[1]")).click();
-        driver.findElement(By.id("Email")).sendKeys("srinitalasani@gmail.com");
-        driver.findElement(By.id("Password")).sendKeys("Sriraju@5");
-        driver.findElement(By.xpath("//*[@value='Log in']")).click();
-        driver.findElement(By.xpath("(//a[@href='/computers'])[3]")).click();
-        driver.findElement(By.xpath("(//a[@href='/desktops'])[3]")).click();
-
-
+    public void user_go_to_computer_menu_and_select_desktops() throws InterruptedException {
+        Thread.sleep(2000);
+        HomePage = new homePage(driver);
+        HomePage.selectcomputer();
+        Thread.sleep(2000);
+        HomePage.selectDesktop();
     }
 
-    @And("User chooses build you own cheap computer")
-    public void userChoosesBuildYouOwnCheapComputer() throws InterruptedException {
-
+    @And("User chooses build you own cheap computer as {string}")
+    public void userChoosesBuildYouOwnCheapComputerAs(String product) throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0,250)", "");
-//        WebElement element = driver.findElement(By.xpath("//*[text()='Build your own cheap computer']"));
-//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-     Thread.sleep(3000);
-      //  driver.findElement(By.xpath("//*[text()='Build your own cheap computer']")).click();
-
+        Thread.sleep(3000);
+        HomePage = new homePage(driver);
+        HomePage.Acceptts();
     }
 
     @And("User add it to cart and accept Ts and Cs and checkout")
     public void userAddItToCartAndAcceptTsAndCsAndCheckout() throws InterruptedException {
-        driver.findElement(By.xpath("(//*[@value='Add to cart'])[1]")).click();
+        Thread.sleep(3000);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0,250)", "");
         Thread.sleep(3000);
-        driver.findElement(By.xpath("(//*[@value='Add to cart'])[1]")).click();
-        driver.findElement(By.xpath("(//*[text()='Shopping cart'])[1]")).click();
-        driver.findElement(By.xpath("(//*[@type='checkbox'])[1]")).click();
-        driver.findElement(By.xpath("(//*[@type='checkbox'])[2]")).click();
-        Thread.sleep(3000);
-        driver.findElement(By.name("checkout")).click();
-
-
+        HomePage = new homePage(driver);
+        HomePage.Acceptts2();
+        Thread.sleep(2000);
+        HomePage.shoppingcart();
+        Thread.sleep(2000);
+        HomePage.checkbox1();
+        Thread.sleep(2000);
+        HomePage.checkbox2();
+        Thread.sleep(2000);
+        HomePage.checkout();
     }
 
     @And("User Complete billing and shipping details and chooses payment method as COD")
     public void userCompleteBillingAndShippingDetailsAndChoosesPaymentMethodAsCOD() throws InterruptedException {
+//      This already registed user no need to give address details. We tried to create new user but was j=not possible
 //        Thread.sleep(3000);
 //        driver.findElement(By.xpath("(//*[@class='valid']")).click();
 //        driver.findElement(By.xpath("//*[text()='Alaska']")).click();
@@ -92,37 +92,26 @@ public class Steps {
 //        driver.findElement(By.id("BillingNewAddress_Address1")).sendKeys("abcd");
 //        driver.findElement(By.id("BillingNewAddress_ZipPostalCode")).sendKeys("12345");
 //        driver.findElement(By.id("BillingNewAddress_PhoneNumber")).sendKeys("09876788999");
-
-
-
-        driver.findElement(By.xpath("//*[@title='Continue']")).click();
         Thread.sleep(3000);
-
-
-        driver.findElement(By.xpath("(//*[@title='Continue'])[2]")).click();
+        HomePage = new homePage(driver);
+        HomePage.continue1();
         Thread.sleep(3000);
-
-        driver.findElement(By.xpath("(//*[@value='Continue'])[3]")).click();
+        HomePage.continue2();
         Thread.sleep(3000);
-
-        driver.findElement(By.xpath("(//*[@value='Continue'])[4]")).click();
+        HomePage.continue3();
         Thread.sleep(3000);
-
-        driver.findElement(By.xpath("(//*[@value='Continue'])[5]")).click();
-
-
-
+        HomePage.continue4();
+        Thread.sleep(3000);
+        HomePage.continue5();
     }
 
     @Then("User confirms Orders and capture order number")
     public void userConfirmsOrdersAndCaptureOrderNumber() throws InterruptedException {
         Thread.sleep(3000);
-        driver.findElement(By.xpath("//*[@value='Confirm']")).click();
-        Thread.sleep(6000);
-       String orNumber= driver.findElement(By.xpath("//ul[@class='details']/li")).getText();
-        System.out.println(orNumber);
-
-
+        HomePage = new homePage(driver);
+        HomePage.confirm();
+        Thread.sleep(3000);
+        HomePage.orderNum();
     }
 
 

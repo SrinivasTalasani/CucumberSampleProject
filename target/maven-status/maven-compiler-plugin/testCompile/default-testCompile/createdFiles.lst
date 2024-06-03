@@ -1,2 +1,4 @@
-Runneraa\Runner.class
-fsteps\step.class
+runner\Runner.class
+stepDefs\homePage.class
+stepDefs\loginPage.class
+stepDefs\Steps.class

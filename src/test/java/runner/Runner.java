@@ -9,9 +9,10 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
         features = {"src/test/java/features"},
         glue = {"stepDefs"},
-        tags = "@Test3",
+        tags = "@InspiredTest",
         dryRun = false,
         plugin = {"pretty", "html:target/cucumber-html-report.html"})
+//      plugin = { "pretty","com.cucumber.listener.ExtentCucumberFormatter:target/cucumber-reports/report.html"})
 public class Runner {
 
 }
